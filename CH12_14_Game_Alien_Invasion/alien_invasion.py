@@ -20,15 +20,8 @@ def run_game():
     while True:
         gf.check_events(ai_settings, screen, ship, bullets)
         ship.update()
-        bullets.update()
 
-        # delete disappeard bullets
-        for bullet in bullets.copy():
-            if bullet.rect.top < 0:
-                bullets.remove(bullet)
-
-        print(len(bullets))
-
+        gf.update_bullets(bullets)
         gf.update_screen(ai_settings, screen, ship, bullets)
 
 if __name__ == "__main__":
