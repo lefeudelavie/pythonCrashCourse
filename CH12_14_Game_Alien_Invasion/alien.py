@@ -1,9 +1,10 @@
 import pygame
 from pygame.sprite import Sprite
 
-class Alien:
+class Alien(Sprite):
     def __init__(self, ai_settings, screen):
         """init alien and set it's position"""
+        super().__init__()
         self.screen = screen
         self.ai_settins = ai_settings
 
