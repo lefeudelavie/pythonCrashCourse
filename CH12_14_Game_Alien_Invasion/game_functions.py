@@ -18,6 +18,7 @@ def get_number_rows(ai_settings, alien_height, ship_height):
 
 
 def create_alien(ai_settings, screen, aliens, alien_number, row_number):
+    """Create a row of aliens"""
     alien = Alien(ai_settings, screen)
     alien_width = alien.rect.width
     alien.x = alien_width + 2 * alien_number * alien_width
@@ -48,11 +49,6 @@ def check_keydown_event(event, ai_settings, screen, ship, bullets):
         # fire bullets
         fire_bullets(ai_settings, screen, ship, bullets)
 
-def fire_bullets(ai_settings, screen, ship, bullets):
-    if len(bullets) < ai_settings.bullets_allowed:
-        new_bullet = Bullet(ai_settings, screen, ship)
-        bullets.add(new_bullet)
-
 def check_keyup_event(event, ship):
     if event.key == pygame.K_RIGHT:
         ship.moving_right = False
@@ -69,6 +65,11 @@ def check_events(ai_settings, screen, ship, bullets):
         elif event.type == pygame.KEYUP:
             check_keyup_event(event, ship)
 
+def fire_bullets(ai_settings, screen, ship, bullets):
+    if len(bullets) < ai_settings.bullets_allowed:
+        new_bullet = Bullet(ai_settings, screen, ship)
+        bullets.add(new_bullet)
+
 def update_bullets(bullets):
     bullets.update()
     # delete disappeard bullets
@@ -83,3 +84,25 @@ def update_screen(ai_settings, screen, ship, aliens, bullets):
     for bullet in bullets:
         bullet.draw_bullet()
     pygame.display.flip()
+
+
+def check_fleet_edges(ai_settings, aliens):
+    """if any alien hit the edge, change the fleet aliens' direction"""
+    for alien in aliens.sprites():
+        if alien.check_edges():
+            change_fleet_direction(ai_settings, aliens)
+            print("addr for ai_settings is:", id(ai_settings))
+            break
+
+def change_fleet_direction(ai_settings, aliens):
+    """move fleet of aliens down and change their direction"""
+    for alien in aliens.sprites():
+        alien.rect.y += ai_settings.alien_drop_speed
+        ai_settings.fleet_direction *= -1
+        print("ai_setting.fleet_direction is:", ai_settings.fleet_direction)
+
+
+def update_aliens(ai_settings, aliens):
+    """check if has any alien hit the screen edges,and update fleet aliens' position"""
+    check_fleet_edges(ai_settings, aliens)
+    aliens.update()
