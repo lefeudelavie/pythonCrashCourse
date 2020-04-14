@@ -91,15 +91,13 @@ def check_fleet_edges(ai_settings, aliens):
     for alien in aliens.sprites():
         if alien.check_edges():
             change_fleet_direction(ai_settings, aliens)
-            print("addr for ai_settings is:", id(ai_settings))
             break
 
 def change_fleet_direction(ai_settings, aliens):
     """move fleet of aliens down and change their direction"""
     for alien in aliens.sprites():
         alien.rect.y += ai_settings.alien_drop_speed
-        ai_settings.fleet_direction *= -1
-        print("ai_setting.fleet_direction is:", ai_settings.fleet_direction)
+    ai_settings.fleet_direction *= -1
 
 
 def update_aliens(ai_settings, aliens):

@@ -1,6 +1,7 @@
 import pygame
 from pygame.sprite import Sprite
-init_direction = 0
+
+
 class Alien(Sprite):
     def __init__(self, ai_settings, screen):
         """init alien and set it's position"""
@@ -24,11 +25,6 @@ class Alien(Sprite):
 
     def update(self):
         """ move alien to right or left"""
-        global init_direction
-        if self.ai_settings.fleet_direction != init_direction:
-            print("direction:", self.ai_settings.fleet_direction)
-            init_direction = self.ai_settings.fleet_direction
-            print("init direction:", init_direction)
         self.x += (self.ai_settings.alien_speed_factor *
                         self.ai_settings.fleet_direction)
         self.rect.x = self.x
