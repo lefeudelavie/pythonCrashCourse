@@ -27,6 +27,9 @@ class Ship():
         """"draw ship in specified place"""
         self.screen.blit(self.image, self.rect)
 
+    def center_ship(self):
+        self.center = self.screen_rect.centerx
+
     def update(self):
         """move ship based on moving flag"""
         if self.moving_right and self.rect.right < self.screen_rect.right:
