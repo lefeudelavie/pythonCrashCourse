@@ -94,7 +94,8 @@ def fire_bullets(ai_settings, screen, ship, bullets):
         new_bullet = Bullet(ai_settings, screen, ship)
         bullets.add(new_bullet)
 
-def update_bullets(ai_settings, screen, ship, bullets, aliens):
+def update_bullets(ai_settings, screen, stats, sb, ship, 
+                   bullets, aliens):
     """update bullets"""
     bullets.update()
     # delete disappeard bullets
@@ -102,24 +103,37 @@ def update_bullets(ai_settings, screen, ship, bullets, aliens):
         if bullet.rect.top < 0:
             bullets.remove(bullet)
 
-    check_bullet_alien_collisions(ai_settings, screen, ship, bullets, aliens)
+    check_bullet_alien_collisions(ai_settings, screen, stats, sb, 
+                                  ship, bullets, aliens)
 
-def check_bullet_alien_collisions(ai_settings, screen, ship, bullets, aliens):
+def check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, 
+                                  bullets, aliens):
     """ collisions detect and recreate fleet aliens"""
     collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
+    
+    # If collide occur between alien and bullet, scoring
+    if collisions:
+        stats.score += ai_settings.alien_points
+        sb.prep_score()
+
+
     # When all the aliens were destroied,  empty the bullets and recreate a fleet of aliens
     if len(aliens) == 0:
         bullets.empty()
+        ai_settings.increase_speed()
         create_fleet(ai_settings, screen, ship, aliens)
 
 
-def update_screen(ai_settings, screen, stats, ship, aliens, bullets,
+def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets,
                   play_button):
     screen.fill(ai_settings.bg_color)
     ship.blitme()
     aliens.draw(screen)
     for bullet in bullets:
         bullet.draw_bullet()
+
+    # display the score
+    sb.show_score()
 
     # if game is inactive, draw the Play button
     if not stats.game_active:
@@ -158,6 +172,7 @@ def ship_hit(ai_settings, screen, ship, aliens, bullets, stats):
         sleep(0.5)
     else:
         stats.game_active = False
+        ai_settings.initialize_dynamic_settings()
         pygame.mouse.set_visible(True)
 
 
