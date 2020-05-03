@@ -86,6 +86,7 @@ def check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens,
         sb.prep_score()
         sb.prep_high_score()
         sb.prep_level()
+        sb.prep_ships()
 
         # empty aliens and bullets
         aliens.empty()
@@ -171,11 +172,14 @@ def change_fleet_direction(ai_settings, aliens):
         alien.rect.y += ai_settings.alien_drop_speed
     ai_settings.fleet_direction *= -1
 
-def ship_hit(ai_settings, screen, ship, aliens, bullets, stats):
+def ship_hit(ai_settings, screen, ship, sb, aliens, bullets, stats):
     """ After aliens hit ship """
     # decrement ship_left
     if stats.ship_left > 0:
         stats.ship_left -= 1
+
+        # update score board
+        sb.prep_ships()
     
         # empty bullets and aliens
         bullets.empty()
@@ -193,22 +197,22 @@ def ship_hit(ai_settings, screen, ship, aliens, bullets, stats):
         pygame.mouse.set_visible(True)
 
 
-def update_aliens(ai_settings, stats, screen, ship, aliens, bullets):
+def update_aliens(ai_settings, stats, screen, sb, ship, aliens, bullets):
     """check if has any alien hit the screen edges,and update fleet aliens' position"""
     check_fleet_edges(ai_settings, aliens)
     aliens.update()
 
     # check collision between aliens and ship
     if pygame.sprite.spritecollideany(ship, aliens):
-        ship_hit(ai_settings, screen, ship, aliens, bullets, stats)
+        ship_hit(ai_settings, screen, ship, sb, aliens, bullets, stats)
 
     # check if any alien hit the bottom
-    check_aliens_bottom(ai_settings, stats, screen, ship, aliens, bullets)
+    check_aliens_bottom(ai_settings, stats, screen, sb, ship, aliens, bullets)
 
-def check_aliens_bottom(ai_settings, stats, screen, ship, aliens, bullets):
+def check_aliens_bottom(ai_settings, stats, screen, sb, ship, aliens, bullets):
     """Check if alien hit the bottom of the screen"""
     screen_rect = screen.get_rect()
     for alien in aliens.sprites():
         if alien.rect.bottom > screen_rect.bottom:
-            ship_hit(ai_settings, screen, ship, aliens, bullets, stats)
+            ship_hit(ai_settings, screen, ship, sb, aliens, bullets, stats)
             break
