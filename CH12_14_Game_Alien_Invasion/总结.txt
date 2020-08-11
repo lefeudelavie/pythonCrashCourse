@@ -36,5 +36,12 @@
 
     外星人和子弹的类是比较特殊的类，因为他们实际上是有小组属性的类。多个实例可以聚合成组，以组来同其他对象发生交互。可以以组来控制其行为。
 
-    八、本程序的
-    
+    八、本程序的具体阅读和分析
+    1、用到的库的主要功能：
+    （1）初始化screen：pygame.init()，初始化diplay模块，通过调用pygame.display.set_mode函数（给出长宽的参数）从而生成一个diaplay的Surface对象screen，也就是主要的显示界面。
+    （2）调用pygame.display.set_caption()来设置主界面的题头。
+    （3）调用pygame.image.load()方法来从一张图片来生成一个pygame的image对象，image对象实际上也是一个Surface对象。
+    （4）调用image对象的get_rect()方法来获得与image同等大小的一个矩形。通过控制这个矩形对象的坐标来实现游戏元素的移动。
+    （5）调用screen对象（主界面）的blit方法（screen对象，实际上就是一个Surface对象），利用（4）种矩形对象提供的坐标位置，在主界面也就是screen之上绘制（3）种的image对象。
+    （6）将需要重复的元素（如alien，bullet，因为需要多个外星人和bullet，并且他们的动作和行为在游戏中是设计一致的）定义为py.sprite.Sprite的子类，再调用py.sprite.Group来生成一个group对象。在游戏
+         中特定的时间点上将多个alien或者bullet添加到对应的group中。再在游戏中统一的来处理他们，这样能提高效率，并降低编程的难度。
