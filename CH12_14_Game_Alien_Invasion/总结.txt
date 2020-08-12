@@ -37,7 +37,7 @@
     外星人和子弹的类是比较特殊的类，因为他们实际上是有小组属性的类。多个实例可以聚合成组，以组来同其他对象发生交互。可以以组来控制其行为。
 
     八、本程序的具体阅读和分析
-    1、用到的库的主要功能：
+    1、用到的pygame库的以下主要功能：
     （1）初始化screen：pygame.init()，初始化diplay模块，通过调用pygame.display.set_mode函数（给出长宽的参数）从而生成一个diaplay的Surface对象screen，也就是主要的显示界面。
     （2）调用pygame.display.set_caption()来设置主界面的题头。
     （3）调用pygame.image.load()方法来从一张图片来生成一个pygame的image对象，image对象实际上也是一个Surface对象。

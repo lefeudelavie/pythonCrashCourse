@@ -19,7 +19,7 @@ class Ship(Sprite):
         self.rect.centerx = self.screen_rect.centerx
         self.rect.bottom = self.screen_rect.bottom
 
-        self.centerx = float(self.rect.centerx)
+        self.center = float(self.rect.centerx)
         # moving flag
         self.moving_right = False
         self.moving_left = False
@@ -35,7 +35,7 @@ class Ship(Sprite):
     def update(self):
         """move ship based on moving flag"""
         if self.moving_right and self.rect.right < self.screen_rect.right:
-            self.centerx += self.ai_settings.ship_speed_factor
+            self.center += self.ai_settings.ship_speed_factor
         if self.moving_left and self.rect.left > 0:
-            self.centerx -= self.ai_settings.ship_speed_factor
-        self.rect.centerx = self.centerx
+            self.center -= self.ai_settings.ship_speed_factor
+        self.rect.centerx = self.center
